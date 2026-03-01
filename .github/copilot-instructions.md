@@ -1,26 +1,37 @@
-# Common Library — Copilot Agent Instructions
+# Copilot Agent Instructions — common-library
 
 ## Repository Purpose
-This is a shared Java utility library (`com.ecosystem.common`) consumed by both `service-alpha` and `service-beta`. It contains DTOs, utility classes, custom exceptions, and cross-cutting concerns.
+`common-library` contains shared Java utilities, helpers, base abstractions, and cross-cutting components consumed by:
+- `vinipx/service-alpha`
+- `vinipx/service-beta`
 
-## Architecture
-- **Language**: Java 21
-- **Build Tool**: Maven 3.9+
-- **Packaging**: JAR (published to local Maven repo or GitHub Packages)
-- **No Spring Boot dependency** — this is a plain Java library
+## Boundaries & Responsibilities
+- Host only reusable, domain-agnostic/shared capabilities.
+- Do NOT include service-specific business rules.
+- Versioning and backward compatibility are mandatory concerns.
 
-## Package Structure
-```
-com.ecosystem.common.dto        → Shared Data Transfer Objects
-com.ecosystem.common.util       → Utility/helper classes (StringUtils, DateUtils, etc.)
-com.ecosystem.common.exception  → Custom exception hierarchy (BaseException, NotFoundException, etc.)
-```
+## Tech Stack
+- Java 21+
+- Maven (publishable artifact)
+- JUnit 5
 
-## Rules for Agents
-1. Backward compatibility is critical — never remove or rename public methods without deprecation.
-2. All public classes and methods MUST have Javadoc.
-3. All utility methods MUST be static and classes MUST have a private constructor.
-4. DTOs MUST use Java records where possible.
-5. Custom exceptions MUST extend BaseException.
-6. Minimum 90% unit test coverage for this library.
-7. Do NOT add Spring framework dependencies here.
+## Agent Operating Instructions
+1. Start from Jira context and identify shared concern candidate.
+2. Validate necessity of shared abstraction:
+   - Is it reused now or expected reusable soon?
+3. Design for stable contracts:
+   - Clear interfaces
+   - Semantic versioning mindset
+4. Add JavaDocs for public APIs.
+5. Add comprehensive unit tests for all exported behaviors.
+6. If breaking changes are unavoidable:
+   - Document migration notes
+   - Signal major version impact in PR
+7. Coordinate consumer updates in `service-alpha` and `service-beta`.
+
+## Definition of Done (Agent)
+- Public API documented
+- Tests green
+- Artifact version updated appropriately
+- Consumer impact documented
+- PR ready for code owner review
